@@ -20,9 +20,9 @@
         "autoprefixer": "^10.4.16"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
+        "start": "node node_modules/react-scripts/bin/react-scripts.js start",
+        "build": "node node_modules/react-scripts/bin/react-scripts.js build",
+        "test": "node node_modules/react-scripts/bin/react-scripts.js test",
         "eject": "react-scripts eject"
     },
     "proxy": "http://localhost:5000",
