@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Files
+.env
+.DS_Store
+
+# React
+client/build/
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Server
+server/uploads/*
+!server/uploads/.gitkeep
