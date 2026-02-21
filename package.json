@@ -8,7 +8,7 @@
         "server": "cd server && npm run dev",
         "client": "cd client && npm start",
         "dev": "concurrently \"npm run server\" \"npm run client\"",
-        "build": "cd client && npm run build",
+        "build": "cd server && npm install && cd ../client && npm install && cd client && npm run build",
         "prod": "set NODE_ENV=production && node server/server.js",
         "deploy": "npm run install-all && npm run build && npm run seed && npm run prod",
         "start": "node server/server.js"
