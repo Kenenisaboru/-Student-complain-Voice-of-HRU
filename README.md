@@ -76,3 +76,34 @@ Once the database is seeded, you can log in with these accounts:
 
 ---
 Built for **Haramaya University**.
+
+## 🌐 Deployment Guide (Online Hosting)
+
+### 1. Database (MongoDB Atlas)
+1. Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Create a new Cluster and a Database User.
+3. In Network Access, allow access from `0.0.0.0/0` (or Render's IP).
+4. Get your Cluster **Connection String** (e.g., `mongodb+srv://...`).
+
+### 2. Hosting (Render.com)
+1. Sign up/Log in to [Render](https://render.com).
+2. Click **New +** and select **Web Service**.
+3. Connect your GitHub repository.
+4. **Settings:**
+   - **Environment**: `Node`
+   - **Build Command**: `npm run build`
+   - **Start Command**: `npm start`
+5. **Environment Variables**:
+   - `MONGODB_URI`: (Your MongoDB Atlas connection string)
+   - `JWT_SECRET`: (A long random string)
+   - `NODE_ENV`: `production`
+6. Click **Deploy Web Service**.
+
+### 3. Initialize Production Data
+Once deployed, you can seed your live database by running this locally (temporary) with the live URI in your `.env`:
+```bash
+npm run seed
+```
+*(Or use a terminal in the Render dashboard to run `npm run seed` inside the server folder)*
+
+> **Note on Storage**: Render's free tier uses ephemeral storage. Files uploaded to `server/uploads` will be deleted whenever the server restarts. For a permanent solution, consider integrating Cloudinary or AWS S3.
