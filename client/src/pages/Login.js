@@ -117,25 +117,7 @@ const Login = () => {
                     </div>
                 </div>
 
-                {/* Demo Credentials Hint */}
-                <div className="mt-8 p-4 bg-primary-50 rounded-2xl border border-primary-100 text-xs text-primary-700">
-                    <p className="font-bold mb-1 uppercase tracking-wider">Demo Credentials:</p>
-                    <div className="grid grid-cols-3 gap-2">
-                        <div>
-                            <p className="font-semibold">Admin:</p>
-                            <p>admin@haramaya.edu.et</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold">Staff:</p>
-                            <p>staff@haramaya.edu.et</p>
-                        </div>
-                        <div>
-                            <p className="font-semibold">Student:</p>
-                            <p>student@haramaya.edu.et</p>
-                        </div>
-                    </div>
-                    <p className="mt-2 italic">* Password for all: Admin@12345 (Staff@12345 / Student@12345)</p>
-                </div>
+
             </div>
         </div>
     );
