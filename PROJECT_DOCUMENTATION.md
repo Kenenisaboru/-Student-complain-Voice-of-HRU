@@ -86,9 +86,7 @@ The platform is built on the industry-standard **MERN Stack**, ensuring scalabil
 2. **Seed Database**: `npm run seed` (Creates categories and demo accounts)
 3. **Start Platform**: `npm run dev`
 
-### **Demo Credentials**
-- **Admin**: `admin@haramaya.edu.et` / `Admin@12345`
-- **Student**: `student@haramaya.edu.et` / `Student@12345`
+
 
 ---
 
