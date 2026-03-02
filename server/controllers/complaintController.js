@@ -1,6 +1,7 @@
 const Complaint = require('../models/Complaint');
 const Category = require('../models/Category');
 const Notification = require('../models/Notification');
+const sendEmail = require('../utils/sendEmail');
 
 // @desc    Create a new complaint
 // @route   POST /api/complaints
@@ -257,6 +258,21 @@ exports.updateStatus = async (req, res, next) => {
             type: notifType,
             relatedComplaint: complaint._id
         });
+
+        // Fire realtime event
+        req.io.to(complaint.submittedBy._id.toString()).emit('notification', {
+            title: `Complaint ${status}`,
+            message: `Your complaint has been updated to ${status}.`
+        });
+
+        // Send Email if resolved
+        if (status === 'resolved' && complaint.submittedBy.email) {
+            sendEmail({
+                email: complaint.submittedBy.email,
+                subject: `Your Complaint (${complaint.ticketId}) has been Resolved`,
+                html: `<p>Dear ${complaint.submittedBy.name},</p><p>We are writing to inform you that your academic complaint has been marked as resolved.</p><br/>Please log in to the VoiceHU platform to review the outcome.`
+            }).catch(console.error); // catch silently so we don't crash
+        }
 
         res.status(200).json({
             success: true,
