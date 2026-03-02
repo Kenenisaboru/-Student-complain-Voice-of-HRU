@@ -12,9 +12,10 @@ const {
 } = require('../controllers/complaintController');
 const { protect, authorize } = require('../middleware/auth');
 const upload = require('../middleware/upload');
+const { validateComplaint } = require('../middleware/validationMiddleware');
 
 router.route('/')
-    .post(protect, upload.array('attachments', 3), createComplaint)
+    .post(protect, upload.array('attachments', 3), validateComplaint, createComplaint)
     .get(protect, getComplaints);
 
 router.route('/:id')
