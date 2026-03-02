@@ -2,9 +2,38 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
+import { io } from 'socket.io-client';
+import { useAuth } from '../context/AuthContext';
+import toast from 'react-hot-toast';
 
 const Layout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { user } = useAuth();
+
+    React.useEffect(() => {
+        if (!user) return;
+
+        // Connect to Socket server
+        const socket = io(process.env.REACT_APP_API_URL || 'http://localhost:5000');
+
+        socket.on('connect', () => {
+            // Join a personal room using User ID
+            socket.emit('join_room', user._id);
+        });
+
+        // Listen for realtime notifications
+        socket.on('notification', (data) => {
+            toast.success(
+                <div>
+                    <strong>{data.title}</strong>
+                    <p className="text-sm">{data.message}</p>
+                </div>,
+                { duration: 6000 }
+            );
+        });
+
+        return () => socket.disconnect();
+    }, [user]);
 
     return (
         <div className="min-h-screen bg-gray-50 flex">
