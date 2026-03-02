@@ -49,7 +49,7 @@ const seedDatabase = async () => {
         const existingStudent = await User.findOne({ email: 'student@haramaya.edu.et' });
         if (!existingStudent) {
             await User.create({
-                name: 'Kenenisa Bekele',
+                name: 'Haramaya university student',
                 email: 'student@haramaya.edu.et',
                 password: 'Student@12345',
                 role: 'student',
@@ -131,10 +131,7 @@ const seedDatabase = async () => {
         }
 
         console.log('\n🎉 Database seeding complete!');
-        console.log('\n📋 Default Credentials:');
-        console.log('   Admin:   admin@haramaya.edu.et / Admin@12345');
-        console.log('   Staff:   staff@haramaya.edu.et / Staff@12345');
-        console.log('   Student: student@haramaya.edu.et / Student@12345');
+
 
         process.exit(0);
     } catch (error) {
