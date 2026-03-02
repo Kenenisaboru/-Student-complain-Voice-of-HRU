@@ -36,15 +36,7 @@ The application will be available at:
 
 ---
 
-## 🔑 Demo Credentials
 
-Once the database is seeded, you can log in with these accounts:
-
-| Role | Email | Password |
-|------|-------|----------|
-| **System Admin** | `admin@haramaya.edu.et` | `Admin@12345` |
-| **Faculty Staff** | `staff@haramaya.edu.et` | `Staff@12345` |
-| **Student** | `student@haramaya.edu.et` | `Student@12345` |
 
 ---
 
