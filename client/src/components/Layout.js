@@ -67,8 +67,13 @@ const Layout = () => {
                     </div>
                 </main>
 
-                <footer className="p-8 text-center text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-[0.2em]">
-                    &copy; {new Date().getFullYear()} VoiceHU Academic Intelligence Platform • Haramaya University
+                <footer className="p-8 text-center space-y-2">
+                    <p className="text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-[0.2em]">
+                        &copy; {new Date().getFullYear()} VoiceHU Academic Intelligence Platform • Haramaya University
+                    </p>
+                    <p className="text-[9px] font-black text-primary-500/60 dark:text-primary-400/40 uppercase tracking-[0.3em]">
+                        Developed by <span className="text-gray-900 dark:text-gray-200">Kenenisa Boru</span> • Fullstack Developer
+                    </p>
                 </footer>
             </div>
         </div>
