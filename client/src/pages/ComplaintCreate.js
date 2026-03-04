@@ -6,7 +6,9 @@ import {
     HiOutlineInformationCircle,
     HiOutlinePaperClip,
     HiOutlineX,
-    HiOutlineCheckCircle
+    HiOutlineCheckCircle,
+    HiOutlinePaperAirplane,
+    HiOutlineShieldCheck
 } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
@@ -33,7 +35,7 @@ const ComplaintCreate = () => {
                     setFormData(prev => ({ ...prev, category: res.data.categories[0]._id }));
                 }
             } catch (err) {
-                toast.error('Failed to load categories');
+                toast.error('Sector data retrieval failure');
             } finally {
                 setCatLoading(false);
             }
@@ -52,11 +54,11 @@ const ComplaintCreate = () => {
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
         if (files.length + selectedFiles.length > 3) {
-            return toast.error('Maximum 3 files allowed');
+            return toast.error('Protocol Limit: Maximum 3 attachments allowed');
         }
         const filteredFiles = selectedFiles.filter(file => file.size <= 5 * 1024 * 1024);
         if (filteredFiles.length < selectedFiles.length) {
-            toast.error('Some files exceed 5MB limit');
+            toast.error('Payload overflow: Some files exceed 5MB limit');
         }
         setFiles([...files, ...filteredFiles]);
     };
@@ -68,7 +70,7 @@ const ComplaintCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.title || !formData.description || !formData.category) {
-            return toast.error('Please fill in all required fields');
+            return toast.error('Incomplete Manifest: Required fields missing');
         }
 
         const data = new FormData();
@@ -87,223 +89,253 @@ const ComplaintCreate = () => {
             await api.post('/complaints', data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            toast.success('Complaint submitted successfully!');
+            toast.success('Protocol Initialized: Complaint Synchronized');
             navigate('/complaints');
         } catch (error) {
             console.error(error);
-            toast.error(error.response?.data?.message || 'Failed to submit complaint');
+            toast.error(error.response?.data?.message || 'Protocol transmission failure');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-4xl mx-auto animate-fade-in">
-            <button
-                onClick={() => navigate(-1)}
-                className="flex items-center text-gray-500 hover:text-gray-900 font-medium mb-6 transition-colors"
-            >
-                <HiOutlineChevronLeft className="w-5 h-5 mr-1" />
-                Back
-            </button>
+        <div className="max-w-7xl mx-auto space-y-8 animate-fade-in-up">
+            {/* Header / Nav */}
+            <div className="flex items-center justify-between">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="group flex items-center gap-3 px-4 py-2 rounded-xl hover:bg-white dark:hover:bg-dark-900 transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-800"
+                >
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-dark-800 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <HiOutlineChevronLeft className="w-5 h-5 text-gray-500" />
+                    </div>
+                    <span className="text-sm font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Abort Mission</span>
+                </button>
+                <div className="hidden sm:flex items-center gap-3">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Secure Protocol</span>
+                    <HiOutlineShieldCheck className="w-5 h-5 text-emerald-500" />
+                </div>
+            </div>
 
-            <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="flex-1 space-y-6">
-                    <div className="bg-white p-6 md:p-8 rounded-3xl border border-gray-100 shadow-sm">
-                        <h1 className="text-2xl font-bold text-gray-900 mb-2">Submit New Complaint</h1>
-                        <p className="text-gray-500 text-sm mb-8">Please provide as much detail as possible to help us resolve your issue effectively.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+                <div className="lg:col-span-2 space-y-8">
+                    <div className="card bg-white dark:bg-dark-900 overflow-hidden shadow-glow-sm">
+                        <div className="h-1.5 w-full bg-gradient-to-r from-primary-600 via-secondary-500 to-accent-500 animate-gradient-shift"></div>
+                        <div className="p-8 md:p-10">
+                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Initialize <span className="text-gradient">Grievance Protocol</span></h1>
+                            <p className="text-gray-500 dark:text-gray-400 font-medium text-sm mb-10">Construct your ticket with precision. Verified details accelerate resolution efficiency.</p>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="space-y-4">
-                                {/* Title */}
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2">Complaint Title <span className="text-red-500">*</span></label>
-                                    <input
-                                        name="title"
-                                        required
-                                        placeholder="e.g., Missing grade in Software Engineering II"
-                                        className="input-field"
-                                        value={formData.title}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                            <form onSubmit={handleSubmit} className="space-y-8">
+                                <div className="space-y-6">
+                                    {/* Title */}
+                                    <div className="space-y-2">
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Protocol Handle (Title)</label>
+                                        <input
+                                            name="title"
+                                            required
+                                            placeholder="Specify core issue concisely..."
+                                            className="input-field h-14 text-lg"
+                                            value={formData.title}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {/* Category */}
-                                    <div>
-                                        <label className="block text-sm font-bold text-gray-700 mb-2">Category <span className="text-red-500">*</span></label>
-                                        <div className="relative">
-                                            {catLoading ? (
-                                                <div className="h-10 bg-gray-50 animate-pulse rounded-lg"></div>
-                                            ) : (
-                                                <select
-                                                    name="category"
-                                                    required
-                                                    className="input-field appearance-none"
-                                                    value={formData.category}
-                                                    onChange={handleChange}
-                                                >
-                                                    {categories.map(c => (
-                                                        <option key={c._id} value={c._id}>{c.icon} {c.name}</option>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {/* Category */}
+                                        <div className="space-y-2">
+                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Academic Sector</label>
+                                            <div className="relative">
+                                                {catLoading ? (
+                                                    <div className="h-14 bg-gray-50 dark:bg-dark-800 animate-pulse rounded-2xl"></div>
+                                                ) : (
+                                                    <select
+                                                        name="category"
+                                                        required
+                                                        className="input-field h-14 appearance-none font-bold text-sm tracking-wide"
+                                                        value={formData.category}
+                                                        onChange={handleChange}
+                                                    >
+                                                        {categories.map(c => (
+                                                            <option key={c._id} value={c._id}>{c.name}</option>
+                                                        ))}
+                                                    </select>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Priority */}
+                                        <div className="space-y-2">
+                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Impact Signature</label>
+                                            <select
+                                                name="priority"
+                                                className="input-field h-14 appearance-none font-bold text-sm tracking-wide"
+                                                value={formData.priority}
+                                                onChange={handleChange}
+                                            >
+                                                <option value="low">Low Impact (Suggestion)</option>
+                                                <option value="medium">Medium Impact (Standard)</option>
+                                                <option value="high">High Impact (Serious)</option>
+                                                <option value="urgent">Urgent Response Required</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {/* Description */}
+                                    <div className="space-y-2">
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Event Detailed Manifest</label>
+                                        <textarea
+                                            name="description"
+                                            required
+                                            rows="8"
+                                            placeholder="Provide technical details, course indices, faculty involvement, and exact timeline of the issue..."
+                                            className="input-field p-6 text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-dark-800/30 border-none transition-all resize-none leading-relaxed"
+                                            value={formData.description}
+                                            onChange={handleChange}
+                                        ></textarea>
+                                    </div>
+
+                                    {/* Attachments */}
+                                    <div className="space-y-3">
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Evidence Payload</label>
+                                        <div className="mt-2 flex flex-col space-y-4">
+                                            <label className="flex items-center justify-center border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl py-12 px-6 hover:bg-gray-50 dark:hover:bg-dark-800 hover:border-primary-500 transition-all cursor-pointer group relative overflow-hidden">
+                                                <div className="text-center relative z-10">
+                                                    <HiOutlinePaperClip className="mx-auto h-10 w-10 text-gray-300 group-hover:text-primary-500 group-hover:scale-110 transition-all" />
+                                                    <span className="mt-4 block text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Aggregate Files</span>
+                                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 opacity-60">PDF, JPG, PNG • Max 5MB / Terminal</span>
+                                                </div>
+                                                <input
+                                                    type="file"
+                                                    multiple
+                                                    className="hidden"
+                                                    accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </label>
+
+                                            {files.length > 0 && (
+                                                <div className="grid grid-cols-1 gap-3">
+                                                    {files.map((file, idx) => (
+                                                        <div key={idx} className="flex items-center justify-between p-4 bg-white dark:bg-dark-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm animate-fade-in-up"
+                                                            style={{ animationDelay: `${idx * 0.1}s` }}>
+                                                            <div className="flex items-center truncate">
+                                                                <div className="w-10 h-10 bg-primary-50 dark:bg-primary-950/40 rounded-xl flex items-center justify-center text-primary-500 mr-4">
+                                                                    <HiOutlinePaperClip className="w-5 h-5" />
+                                                                </div>
+                                                                <div className="truncate">
+                                                                    <div className="text-xs font-black text-gray-900 dark:text-white truncate uppercase tracking-tighter">{file.name}</div>
+                                                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest opacity-60">Payload Size: {(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                                                                </div>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => removeFile(idx)}
+                                                                className="w-10 h-10 flex items-center justify-center bg-gray-50 dark:bg-dark-800 hover:bg-rose-50 dark:hover:bg-rose-900/20 text-gray-400 hover:text-rose-500 rounded-xl transition-all"
+                                                            >
+                                                                <HiOutlineX className="w-5 h-5" />
+                                                            </button>
+                                                        </div>
                                                     ))}
-                                                </select>
+                                                </div>
                                             )}
                                         </div>
                                     </div>
 
-                                    {/* Priority */}
-                                    <div>
-                                        <label className="block text-sm font-bold text-gray-700 mb-2">Priority Level</label>
-                                        <select
-                                            name="priority"
-                                            className="input-field appearance-none"
-                                            value={formData.priority}
-                                            onChange={handleChange}
-                                        >
-                                            <option value="low">Low - General Suggestion</option>
-                                            <option value="medium">Medium - Normal Issue</option>
-                                            <option value="high">High - Important issue</option>
-                                            <option value="urgent">Urgent - Immediate attention required</option>
-                                        </select>
+                                    {/* Anonymous Option */}
+                                    <div className="pt-6 border-t border-gray-50 dark:border-gray-800">
+                                        <div className="flex items-center px-6 py-5 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-3xl border border-indigo-100 dark:border-indigo-500/20 group hover:border-indigo-500 transition-all cursor-pointer">
+                                            <div className="relative flex items-center h-6">
+                                                <input
+                                                    id="isAnonymous"
+                                                    name="isAnonymous"
+                                                    type="checkbox"
+                                                    className="w-6 h-6 text-indigo-600 border-gray-300 rounded-lg focus:ring-indigo-500 bg-white dark:bg-dark-800"
+                                                    checked={formData.isAnonymous}
+                                                    onChange={handleChange}
+                                                />
+                                            </div>
+                                            <label htmlFor="isAnonymous" className="ml-5 flex-1 cursor-pointer">
+                                                <span className="block text-sm font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest">Activate Stealth Mode</span>
+                                                <span className="block text-[10px] font-bold text-indigo-700/60 dark:text-indigo-400/60 uppercase tracking-widest mt-1">Initialize identity encapsulation. Only protocol data will be visible to adjudicators.</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Description */}
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2">Description <span className="text-red-500">*</span></label>
-                                    <textarea
-                                        name="description"
-                                        required
-                                        rows="6"
-                                        placeholder="Describe your complaint in detail. Include dates, course codes, or faculty names if relevant..."
-                                        className="input-field resize-none"
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                    ></textarea>
-                                </div>
-
-                                {/* Attachments */}
-                                <div>
-                                    <label className="block text-sm font-bold text-gray-700 mb-2">Attachments (Optional)</label>
-                                    <div className="mt-2 flex flex-col space-y-3">
-                                        <label className="flex items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl py-8 px-4 hover:bg-gray-50 hover:border-primary-300 transition-all cursor-pointer group">
-                                            <div className="text-center">
-                                                <HiOutlinePaperClip className="mx-auto h-8 w-8 text-gray-400 group-hover:text-primary-500 group-hover:scale-110 transition-all" />
-                                                <span className="mt-2 block text-sm font-medium text-gray-600">Click to upload files</span>
-                                                <span className="text-xs text-gray-400">PDF, JPG, PNG or DOCX up to 5MB (Max 3)</span>
-                                            </div>
-                                            <input
-                                                type="file"
-                                                multiple
-                                                className="hidden"
-                                                accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                                                onChange={handleFileChange}
-                                            />
-                                        </label>
-
-                                        {files.length > 0 && (
-                                            <div className="grid grid-cols-1 gap-2">
-                                                {files.map((file, idx) => (
-                                                    <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100">
-                                                        <div className="flex items-center truncate">
-                                                            <HiOutlinePaperClip className="w-5 h-5 text-primary-500 mr-3" />
-                                                            <span className="text-xs font-semibold text-gray-700 truncate">{file.name}</span>
-                                                            <span className="ml-2 text-[10px] text-gray-400">({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                                                        </div>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => removeFile(idx)}
-                                                            className="p-1 hover:bg-red-100 text-red-500 rounded-lg transition-colors"
-                                                        >
-                                                            <HiOutlineX className="w-4 h-4" />
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                <div className="flex pt-6">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="btn-primary w-full py-5 shadow-glow flex items-center justify-center gap-3 text-lg"
+                                    >
+                                        {loading ? (
+                                            <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        ) : (
+                                            <>
+                                                <HiOutlinePaperAirplane className="w-6 h-6 rotate-45" />
+                                                Transmit Protocol Load
+                                            </>
                                         )}
-                                    </div>
+                                    </button>
                                 </div>
-
-                                {/* Anonymous Option */}
-                                <div className="pt-4 border-t border-gray-50">
-                                    <div className="flex items-center px-4 py-3 bg-indigo-50 rounded-2xl border border-indigo-100">
-                                        <input
-                                            id="isAnonymous"
-                                            name="isAnonymous"
-                                            type="checkbox"
-                                            className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                                            checked={formData.isAnonymous}
-                                            onChange={handleChange}
-                                        />
-                                        <label htmlFor="isAnonymous" className="ml-3">
-                                            <span className="block text-sm font-bold text-indigo-900 leading-none">Submit Anonymously</span>
-                                            <span className="block text-xs text-indigo-700 mt-1">Your identity will be hidden from staff members.</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex justify-end pt-4">
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="btn-primary w-full md:w-auto px-10 py-3.5 shadow-lg shadow-primary-200 flex items-center justify-center"
-                                >
-                                    {loading ? (
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                    ) : (
-                                        <>Submit Complaint</>
-                                    )}
-                                </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
-                {/* Sidebar Info */}
-                <div className="w-full md:w-80 space-y-6">
-                    <div className="bg-primary-600 text-white p-6 rounded-3xl shadow-xl shadow-primary-100">
-                        <div className="flex items-center gap-3 mb-4">
-                            <HiOutlineInformationCircle className="w-6 h-6" />
-                            <h3 className="font-bold text-lg">Guidelines</h3>
+                {/* Sidebar Guideline Hub */}
+                <div className="space-y-8">
+                    <div className="relative overflow-hidden card group">
+                        <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-900 group-hover:scale-105 transition-transform duration-700"></div>
+                        <div className="relative z-10 p-8 space-y-6 text-white">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
+                                    <HiOutlineInformationCircle className="w-6 h-6" />
+                                </div>
+                                <h3 className="font-black text-xs uppercase tracking-[0.3em]">Directives</h3>
+                            </div>
+                            <ul className="space-y-5">
+                                {[
+                                    'Specify exact course indices.',
+                                    'Verify faculty identity parameters.',
+                                    'Encrypt attachments for security.',
+                                    'Monitor terminal for status signals.',
+                                    'SLA Response: 72-120 Hours.'
+                                ].map((step, i) => (
+                                    <li key={i} className="flex gap-4 items-start text-[11px] font-bold uppercase tracking-widest opacity-80 leading-relaxed">
+                                        <span className="w-1.5 h-1.5 bg-primary-300 rounded-full mt-1.5 shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
+                                        {step}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                        <ul className="space-y-3 text-sm text-primary-50 opacity-90">
-                            <li className="flex gap-2">
-                                <span className="font-bold">•</span>
-                                <span>Be specific about course codes and section numbers.</span>
-                            </li>
-                            <li className="flex gap-2">
-                                <span className="font-bold">•</span>
-                                <span>Attach evidence (screenshots, photos) if available.</span>
-                            </li>
-                            <li className="flex gap-2">
-                                <span className="font-bold">•</span>
-                                <span>Wait for our staff to review your case. Normal turnaround is 3-5 days.</span>
-                            </li>
-                            <li className="flex gap-2">
-                                <span className="font-bold">•</span>
-                                <span>Check notifications for updates from the department.</span>
-                            </li>
-                        </ul>
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                        <h3 className="font-bold text-gray-900 mb-4 flex items-center">
-                            <HiOutlineCheckCircle className="w-5 h-5 mr-2 text-emerald-500" />
-                            What Happens Next?
+                    <div className="card bg-white dark:bg-dark-900 p-8 space-y-8">
+                        <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.3em] flex items-center gap-3">
+                            <HiOutlineCheckCircle className="w-5 h-5 text-emerald-500" />
+                            Lifecycle Status
                         </h3>
-                        <div className="relative pl-6 space-y-6">
+                        <div className="relative space-y-10">
                             {[
-                                { label: 'Drafting', desc: 'You are currently here' },
-                                { label: 'Staff Review', desc: 'Case is assigned to a faculty member' },
-                                { label: 'Investigation', desc: 'Academic records & policies are checked' },
-                                { label: 'Resolution', desc: 'A final decision is made and logged' }
+                                { label: 'Transmission', desc: 'Current active phase', active: true },
+                                { label: 'Triage', desc: 'Sector specialist assignment', active: false },
+                                { label: 'Investigation', desc: 'Protocol audit & verification', active: false },
+                                { label: 'Execution', desc: 'Resolution & identity close', active: false }
                             ].map((step, i) => (
-                                <div key={i} className="relative">
-                                    {i < 3 && <div className="absolute left-[-17px] top-6 bottom-[-24px] w-0.5 bg-gray-100"></div>}
-                                    <div className={`absolute left-[-21px] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-primary-500' : 'bg-gray-200'}`}></div>
-                                    <div className={`text-sm font-bold ${i === 0 ? 'text-gray-900' : 'text-gray-400'}`}>{step.label}</div>
-                                    <div className="text-xs text-gray-400 mt-0.5">{step.desc}</div>
+                                <div key={i} className="relative pl-10">
+                                    {i < 3 && (
+                                        <div className={`absolute left-[13px] top-8 bottom-[-24px] w-[2px] ${step.active ? 'bg-primary-500' : 'bg-gray-100 dark:bg-dark-800'}`}></div>
+                                    )}
+                                    <div className={`absolute left-0 top-1 w-7 h-7 rounded-lg flex items-center justify-center border-2 transition-all duration-500 ${step.active
+                                        ? 'bg-primary-500 border-primary-500 shadow-glow-sm text-white'
+                                        : 'bg-white dark:bg-dark-950 border-gray-100 dark:border-gray-800 text-gray-300'
+                                        }`}>
+                                        <span className="text-[10px] font-black">{i + 1}</span>
+                                    </div>
+                                    <div className={`text-xs font-black uppercase tracking-widest ${step.active ? 'text-gray-900 dark:text-white' : 'text-gray-300 dark:text-gray-600'}`}>{step.label}</div>
+                                    <div className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mt-1 opacity-70">{step.desc}</div>
                                 </div>
                             ))}
                         </div>
