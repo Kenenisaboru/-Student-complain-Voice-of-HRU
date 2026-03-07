@@ -52,8 +52,7 @@ io.on('connection', (socket) => {
     });
 });
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB is now handled in startServer() at the bottom of the file
 
 // Security middleware
 app.use(helmet({
@@ -126,11 +125,24 @@ app.use(errorHandler);
 
 // Start server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`\n🚀 VoiceHU Server running on port ${PORT}`);
-    console.log(`📍 API: http://localhost:${PORT}/api`);
-    console.log(`🏥 Health: http://localhost:${PORT}/api/health`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
-});
+
+const startServer = async () => {
+    try {
+        // Connect to MongoDB
+        await connectDB();
+
+        server.listen(PORT, () => {
+            console.log(`\n🚀 VoiceHU Server running on port ${PORT}`);
+            console.log(`📍 API: http://localhost:${PORT}/api`);
+            console.log(`🏥 Health: http://localhost:${PORT}/api/health`);
+            console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}\n`);
+        });
+    } catch (error) {
+        console.error('Failed to start server:', error.message);
+        process.exit(1);
+    }
+};
+
+startServer();
 
 module.exports = app;
