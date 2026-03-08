@@ -13,6 +13,9 @@ import ComplaintList from './pages/ComplaintList';
 import ComplaintCreate from './pages/ComplaintCreate';
 import ComplaintDetail from './pages/ComplaintDetail';
 import Notifications from './pages/Notifications';
+import Analytics from './pages/Analytics';
+import Categories from './pages/Categories';
+import Users from './pages/Users';
 
 const App = () => {
     return (
@@ -36,6 +39,9 @@ const App = () => {
                         <Route path="/complaints/new" element={<ComplaintCreate />} />
                         <Route path="/complaints/:id" element={<ComplaintDetail />} />
                         <Route path="/notifications" element={<Notifications />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        <Route path="/categories" element={<Categories />} />
+                        <Route path="/users" element={<Users />} />
 
                         {/* Fallback internal */}
                         <Route path="/" element={<Navigate to="/dashboard" replace />} />

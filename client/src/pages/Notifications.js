@@ -9,7 +9,7 @@ import {
     HiOutlineLightningBolt
 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 
 const Notifications = () => {

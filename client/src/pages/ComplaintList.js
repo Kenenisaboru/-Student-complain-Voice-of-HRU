@@ -13,7 +13,7 @@ import {
     HiOutlineAdjustments
 } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 
 const ComplaintList = () => {
@@ -171,7 +171,7 @@ const ComplaintList = () => {
                                                 {c.ticketId}
                                             </span>
                                             <span className={`text-[10px] font-black uppercase tracking-[0.15em] ${c.priority === 'urgent' ? 'text-rose-500' :
-                                                    c.priority === 'high' ? 'text-amber-500' : 'text-gray-400'
+                                                c.priority === 'high' ? 'text-amber-500' : 'text-gray-400'
                                                 }`}>
                                                 {c.priority}
                                             </span>

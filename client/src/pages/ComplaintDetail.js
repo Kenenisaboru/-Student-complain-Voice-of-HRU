@@ -16,7 +16,7 @@ import {
     HiOutlineLightningBolt,
     HiOutlineShieldCheck
 } from 'react-icons/hi';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 
 const ComplaintDetail = () => {
@@ -166,8 +166,8 @@ const ComplaintDetail = () => {
                                     {complaint.status.replace('-', ' ')}
                                 </span>
                                 <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-widest ${complaint.priority === 'urgent'
-                                        ? 'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950/20 dark:border-rose-500/20'
-                                        : 'bg-gray-50 text-gray-500 border-gray-100 dark:bg-dark-800 dark:border-gray-700'
+                                    ? 'bg-rose-50 text-rose-600 border-rose-100 dark:bg-rose-950/20 dark:border-rose-500/20'
+                                    : 'bg-gray-50 text-gray-500 border-gray-100 dark:bg-dark-800 dark:border-gray-700'
                                     }`}>
                                     <HiOutlineLightningBolt className="w-3.5 h-3.5" />
                                     {complaint.priority} Priority
@@ -253,8 +253,8 @@ const ComplaintDetail = () => {
                                                 )}
                                             </div>
                                             <div className={`p-5 rounded-2xl text-[15px] leading-relaxed relative ${isSelf
-                                                    ? 'bg-primary-600 text-white rounded-tr-none shadow-glow-sm'
-                                                    : 'bg-white dark:bg-dark-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-300 rounded-tl-none shadow-sm'
+                                                ? 'bg-primary-600 text-white rounded-tr-none shadow-glow-sm'
+                                                : 'bg-white dark:bg-dark-900 border border-gray-100 dark:border-gray-800 text-gray-800 dark:text-gray-300 rounded-tl-none shadow-sm'
                                                 }`}>
                                                 {res.message}
                                             </div>

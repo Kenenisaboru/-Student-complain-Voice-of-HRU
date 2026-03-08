@@ -16,7 +16,7 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell,
     AreaChart, Area
 } from 'recharts';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
@@ -261,16 +261,16 @@ const Dashboard = () => {
                                         </td>
                                         <td className="px-8 py-5 text-center">
                                             <span className={`badge ${complaint.status === 'resolved' ? 'badge-success' :
-                                                    complaint.status === 'pending' ? 'badge-warning' :
-                                                        complaint.status === 'rejected' ? 'badge-danger' :
-                                                            'badge-primary'
+                                                complaint.status === 'pending' ? 'badge-warning' :
+                                                    complaint.status === 'rejected' ? 'badge-danger' :
+                                                        'badge-primary'
                                                 }`}>
                                                 {complaint.status.replace('-', ' ')}
                                             </span>
                                         </td>
                                         <td className="px-8 py-5 text-center">
                                             <span className={`text-[10px] font-black uppercase tracking-widest ${complaint.priority === 'urgent' ? 'text-rose-500' :
-                                                    complaint.priority === 'high' ? 'text-amber-500' : 'text-gray-400'
+                                                complaint.priority === 'high' ? 'text-amber-500' : 'text-gray-400'
                                                 }`}>
                                                 {complaint.priority}
                                             </span>
