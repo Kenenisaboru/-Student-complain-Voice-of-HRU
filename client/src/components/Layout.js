@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import TopBar from './TopBar';
+import BottomNav from './BottomNav';
 import { io } from 'socket.io-client';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -61,13 +62,13 @@ const Layout = () => {
 
             <div className="flex-1 flex flex-col md:ml-72 min-w-0">
                 <TopBar onMenuClick={() => setIsSidebarOpen(true)} />
-                <main className="flex-1 p-4 md:p-10 overflow-x-hidden">
+                <main className="flex-1 p-4 md:p-10 pb-28 md:pb-10 overflow-x-hidden">
                     <div className="max-w-7xl mx-auto space-y-8">
                         <Outlet />
                     </div>
                 </main>
 
-                <footer className="p-8 text-center space-y-2">
+                <footer className="p-8 pb-32 md:pb-8 text-center space-y-2">
                     <p className="text-[10px] font-bold text-gray-400 dark:text-gray-600 uppercase tracking-[0.2em]">
                         &copy; {new Date().getFullYear()} VoiceHU Academic Intelligence Platform • Haramaya University
                     </p>
@@ -76,6 +77,7 @@ const Layout = () => {
                     </p>
                 </footer>
             </div>
+            <BottomNav />
         </div>
     );
 };
