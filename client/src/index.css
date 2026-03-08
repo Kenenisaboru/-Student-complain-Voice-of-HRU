@@ -27,15 +27,15 @@
   }
 
   body {
-    @apply antialiased text-slate-800 dark:text-gray-100;
+    @apply antialiased text-slate-800 dark:text-gray-100 bg-gray-50 dark:bg-dark-950;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Prevent layout shift on scrollbar */
   html {
     overflow-y: scroll;
+    scroll-behavior: smooth;
   }
 }
 
@@ -51,7 +51,7 @@
   }
 
   .btn-outline {
-    @apply px-5 py-2.5 border-2 border-gray-200 bg-white text-gray-700 rounded-xl font-semibold transition-all duration-300 ease-out hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-card-hover active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:border-gray-500;
+    @apply px-5 py-2.5 border-2 border-gray-200 bg-white text-gray-700 rounded-xl font-semibold transition-all duration-300 ease-out hover:bg-gray-50 hover:border-gray-300 hover:-translate-y-0.5 hover:shadow-card-hover active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:ring-offset-2 dark:bg-dark-900 dark:border-gray-800 dark:text-gray-200 dark:hover:bg-dark-800 dark:hover:border-gray-700;
   }
 
   .btn-ghost {
@@ -64,7 +64,7 @@
 
   /* ===== INPUTS ===== */
   .input-field {
-    @apply w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 focus:bg-white outline-none transition-all duration-200 placeholder:text-gray-400 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 dark:focus:bg-gray-800 dark:focus:border-primary-500 dark:placeholder:text-gray-500;
+    @apply w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500 focus:bg-white outline-none transition-all duration-200 placeholder:text-gray-400 dark:bg-dark-900 dark:border-gray-800 dark:text-gray-100 dark:focus:bg-dark-900 dark:focus:border-primary-500 dark:placeholder:text-gray-500;
   }
 
   /* ===== CARDS ===== */
@@ -73,16 +73,16 @@
   }
 
   .card {
-    @apply bg-white border border-gray-100 shadow-card rounded-2xl transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 dark:bg-gray-800 dark:border-gray-700 dark:shadow-card-dark;
+    @apply bg-white border border-gray-100 shadow-card rounded-2xl transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 dark:bg-dark-900 dark:border-gray-800 dark:shadow-card-dark;
   }
 
   .card-static {
-    @apply bg-white border border-gray-100 shadow-card rounded-2xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-card-dark;
+    @apply bg-white border border-gray-100 shadow-card rounded-2xl dark:bg-dark-900 dark:border-gray-800 dark:shadow-card-dark;
   }
 
   /* ===== STAT CARDS ===== */
   .stat-card {
-    @apply relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-100 shadow-card transition-all duration-500 ease-out hover:shadow-card-hover hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700;
+    @apply relative overflow-hidden bg-white p-6 rounded-2xl border border-gray-100 shadow-card transition-all duration-500 ease-out hover:shadow-card-hover hover:-translate-y-1 dark:bg-dark-900 dark:border-gray-800;
   }
 
   .stat-card::after {
@@ -97,23 +97,23 @@
 
   /* ===== BADGE ===== */
   .badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold;
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest;
   }
 
   .badge-primary {
-    @apply bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400;
+    @apply bg-primary-100 text-primary-700 dark:bg-primary-900/30 dark:text-primary-400 border border-primary-200 dark:border-primary-800;
   }
 
   .badge-success {
-    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400;
+    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800;
   }
 
   .badge-warning {
-    @apply bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+    @apply bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-200 dark:border-amber-800;
   }
 
   .badge-danger {
-    @apply bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400;
+    @apply bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400 border border-rose-200 dark:border-rose-800;
   }
 
   /* ===== SHIMMER LOADING ===== */
@@ -158,11 +158,11 @@
 
   /* ===== SIDEBAR ===== */
   .sidebar-item {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-gray-500 hover:bg-gray-100/80 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 text-gray-400 hover:bg-gray-100/80 hover:text-gray-900 dark:text-gray-500 dark:hover:bg-dark-800 dark:hover:text-gray-100;
   }
 
   .sidebar-item-active {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary-50 text-primary-600 shadow-sm font-semibold dark:bg-primary-900/20 dark:text-primary-400;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary-50 text-primary-600 shadow-sm font-black uppercase text-[11px] tracking-widest dark:bg-primary-900/20 dark:text-primary-400;
   }
 }
 
@@ -193,29 +193,6 @@
   background: #64748b;
 }
 
-/* ===== PAGE TRANSITIONS ===== */
-.page-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.page-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-
-.page-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.page-exit-active {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 300ms, transform 300ms;
-}
-
 /* ===== ANIMATED MESH BACKGROUND ===== */
 .mesh-bg {
   position: relative;
@@ -244,73 +221,207 @@
   animation-delay: var(--delay, 0s);
 }
 
-/* ===== TOOLTIP ===== */
-.tooltip {
-  @apply relative;
+/* ===== KEYFRAMES & ANIMATIONS ===== */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
-.tooltip::after {
-  content: attr(data-tip);
-  @apply absolute left-full ml-3 px-3 py-1.5 bg-gray-900 text-white text-xs font-medium rounded-lg opacity-0 pointer-events-none transition-all duration-200 whitespace-nowrap z-50 -translate-x-1;
+@keyframes gradientShift {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
 }
 
-.tooltip:hover::after {
-  @apply opacity-100 translate-x-0;
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+
+  33% {
+    transform: translateY(-30px) translateX(20px);
+  }
+
+  66% {
+    transform: translateY(15px) translateX(-15px);
+  }
 }
 
-/* ===== NOTIFICATION DOT ===== */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(26, 117, 255, 0.4);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 10px rgba(26, 117, 255, 0);
+  }
+}
+
+@keyframes slideUpModal {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceSubtle {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite linear;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-up-modal {
+  animation: slideUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 3s ease-in-out infinite;
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ===== CUSTOM UTILITIES ===== */
+.shadow-glow {
+  box-shadow: 0 0 40px -10px rgba(26, 117, 255, 0.3);
+}
+
+.shadow-glow-sm {
+  box-shadow: 0 0 20px -5px rgba(26, 117, 255, 0.2);
+}
+
+.shadow-glow-purple {
+  box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.3);
+}
+
+.shadow-nav-mobile {
+  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.dark .shadow-nav-mobile {
+  box-shadow: 0 -10px 40px -10px rgba(0, 0, 0, 0.5);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 dark:bg-gray-800 rounded-full;
+}
+
 .notification-dot {
-  @apply absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-900;
+  @apply absolute top-0 right-0 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white dark:border-dark-950;
   animation: pulseGlow 2s infinite;
 }
 
-/* ===== PROSE DARK MODE ===== */
-.dark .prose {
-  @apply text-gray-300;
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-.dark .prose strong {
-  @apply text-gray-100;
+/* Base Overrides for Mobile UX */
+@media (max-width: 768px) {
+  .card {
+    @apply rounded-3xl p-5;
+  }
+
+  h1 {
+    @apply text-2xl;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-outline {
+    @apply py-4;
+  }
 }
 
-/* ===== SELECT ARROW ===== */
-select.input-field {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
-  background-position: right 0.5rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
-}
-
-/* ===== STAGGER ANIMATION DELAYS ===== */
+/* Staggered load system */
 .stagger-1 {
-  animation-delay: 0.05s;
-}
-
-.stagger-2 {
   animation-delay: 0.1s;
 }
 
-.stagger-3 {
+.stagger-2 {
   animation-delay: 0.15s;
 }
 
-.stagger-4 {
+.stagger-3 {
   animation-delay: 0.2s;
 }
 
-.stagger-5 {
+.stagger-4 {
   animation-delay: 0.25s;
 }
 
-.stagger-6 {
+.stagger-5 {
   animation-delay: 0.3s;
 }
 
-.stagger-7 {
+.stagger-6 {
   animation-delay: 0.35s;
 }
 
-.stagger-8 {
+.stagger-7 {
   animation-delay: 0.4s;
+}
+
+.stagger-8 {
+  animation-delay: 0.45s;
 }
