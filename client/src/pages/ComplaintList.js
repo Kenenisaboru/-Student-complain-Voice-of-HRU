@@ -153,43 +153,44 @@ const ComplaintList = () => {
                         ))}
                     </div>
                 ) : complaints.length > 0 ? (
-                    <div className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 gap-4 md:gap-6">
                         {complaints.map((c, idx) => (
                             <Link
                                 key={c._id}
                                 to={`/complaints/${c._id}`}
-                                className={`card group p-6 flex flex-col md:flex-row md:items-center gap-6 stagger-${(idx % 8) + 1}`}
+                                className={`card group p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8 stagger-${(idx % 8) + 1} border-l-4`}
+                                style={{ borderLeftColor: c.category?.color || '#3b82f6' }}
                             >
-                                <div className="flex items-center gap-6 flex-1">
-                                    <div className="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-dark-800 border border-gray-100 dark:border-gray-700/50 flex items-center justify-center text-2xl group-hover:shadow-glow-sm transition-all duration-300">
+                                <div className="flex items-start md:items-center gap-4 md:gap-6 flex-1 min-w-0">
+                                    <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gray-50/50 dark:bg-dark-800/50 border border-gray-100 dark:border-gray-700/50 flex items-center justify-center text-xl md:text-3xl group-hover:scale-110 transition-all duration-500 shrink-0 shadow-sm group-hover:shadow-glow-sm">
                                         {c.category?.icon || '📋'}
                                     </div>
 
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex items-center gap-3 mb-1.5">
-                                            <span className="font-mono text-[10px] font-black text-primary-500 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/40 px-2.5 py-1 rounded-lg border border-primary-100 dark:border-primary-500/20 tracking-tighter">
+                                    <div className="flex-1 min-w-0 space-y-2">
+                                        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                                            <span className="font-mono text-[9px] md:text-[10px] font-black text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/40 px-2 py-1 rounded-lg border border-primary-100 dark:border-primary-500/20 tracking-tighter">
                                                 {c.ticketId}
                                             </span>
-                                            <span className={`text-[10px] font-black uppercase tracking-[0.15em] ${c.priority === 'urgent' ? 'text-rose-500' :
+                                            <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-widest ${c.priority === 'urgent' ? 'text-rose-500' :
                                                 c.priority === 'high' ? 'text-amber-500' : 'text-gray-400'
                                                 }`}>
-                                                {c.priority}
+                                                {c.priority} Priority
                                             </span>
                                         </div>
-                                        <h3 className="text-xl font-black text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
+                                        <h3 className="text-lg md:text-xl font-black text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate tracking-tight">
                                             {c.title}
                                         </h3>
-                                        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mt-2">
-                                            <div className="flex items-center text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-                                                <HiOutlineCalendar className="w-3.5 h-3.5 mr-2 opacity-50" />
+                                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
+                                            <div className="flex items-center text-[10px] md:text-[11px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 dark:bg-dark-800 px-2 py-1 rounded-md">
+                                                <HiOutlineCalendar className="w-3.5 h-3.5 mr-2 opacity-50 text-primary-500" />
                                                 {format(new Date(c.createdAt), 'MMM d, yyyy')}
                                             </div>
-                                            <div className="flex items-center text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-                                                <div className="w-1.5 h-1.5 rounded-full mr-2" style={{ backgroundColor: c.category?.color }}></div>
+                                            <div className="flex items-center text-[10px] md:text-[11px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+                                                <div className="w-2 h-2 rounded-full mr-2 shadow-sm" style={{ backgroundColor: c.category?.color }}></div>
                                                 {c.category?.name}
                                             </div>
                                             {c.responses?.length > 0 && (
-                                                <div className="flex items-center text-[11px] font-black text-primary-500 uppercase tracking-widest">
+                                                <div className="flex items-center text-[10px] md:text-[11px] font-black text-primary-500 uppercase tracking-widest">
                                                     <HiOutlineChatAlt className="w-3.5 h-3.5 mr-2" />
                                                     {c.responses.length} Signals
                                                 </div>
@@ -199,11 +200,11 @@ const ComplaintList = () => {
                                 </div>
 
                                 <div className="flex items-center justify-between md:flex-col md:items-end gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-gray-50 dark:border-gray-800">
-                                    <span className={`badge px-4 py-1.5 uppercase tracking-widest ${getStatusStyles(c.status)}`}>
+                                    <span className={`badge px-4 py-1.5 ${getStatusStyles(c.status)}`}>
                                         {c.status.replace('-', ' ')}
                                     </span>
-                                    <div className="flex items-center gap-1 text-[10px] font-black text-gray-300 dark:text-gray-600 uppercase tracking-widest group-hover:text-primary-500 transition-colors">
-                                        View Protocol <HiOutlineChevronRight className="w-4 h-4 ml-1" />
+                                    <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-primary-600 transition-all">
+                                        Open Protocol <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </div>
                             </Link>
