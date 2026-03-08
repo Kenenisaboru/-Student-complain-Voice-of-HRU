@@ -18,6 +18,7 @@ import {
 } from 'react-icons/hi';
 import { format } from 'date-fns';
 import toast from 'react-hot-toast';
+import Modal from '../components/Modal';
 
 const ComplaintDetail = () => {
     const { id } = useParams();
@@ -29,6 +30,11 @@ const ComplaintDetail = () => {
     const [response, setResponse] = useState('');
     const [sendingResponse, setSendingResponse] = useState(false);
     const [staffList, setStaffList] = useState([]);
+
+    // Modal state
+    const [isRejectionModalOpen, setIsRejectionModalOpen] = useState(false);
+    const [rejectionReason, setRejectionReason] = useState('');
+    const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
 
     // Rating state
     const [rating, setRating] = useState(0);
@@ -62,18 +68,37 @@ const ComplaintDetail = () => {
     }, [user]);
 
     const handleUpdateStatus = async (status) => {
-        let rejectionReason = '';
         if (status === 'rejected') {
-            rejectionReason = window.prompt('Protocol Termination Trace: Provide reason for rejection');
-            if (!rejectionReason) return;
+            setIsRejectionModalOpen(true);
+            return;
         }
 
         try {
-            const res = await api.put(`/complaints/${id}/status`, { status, rejectionReason });
+            const res = await api.put(`/complaints/${id}/status`, { status });
             setComplaint(res.data.complaint);
             toast.success(`Protocol state updated to ${status.toUpperCase()}`);
         } catch (err) {
             toast.error(err.response?.data?.message || 'Status transition failure');
+        }
+    };
+
+    const submitRejection = async () => {
+        if (!rejectionReason.trim()) return toast.error('Rejection reason required');
+
+        setIsUpdatingStatus(true);
+        try {
+            const res = await api.put(`/complaints/${id}/status`, {
+                status: 'rejected',
+                rejectionReason
+            });
+            setComplaint(res.data.complaint);
+            setIsRejectionModalOpen(false);
+            setRejectionReason('');
+            toast.success('Protocol state updated to REJECTED');
+        } catch (err) {
+            toast.error('Status transition failure');
+        } finally {
+            setIsUpdatingStatus(false);
         }
     };
 
@@ -448,6 +473,36 @@ const ComplaintDetail = () => {
                     )}
                 </div>
             </div>
+
+            {/* Rejection Modal */}
+            <Modal
+                isOpen={isRejectionModalOpen}
+                onClose={() => setIsRejectionModalOpen(false)}
+                title="Protocol Rejection Control"
+                footer={
+                    <>
+                        <button
+                            onClick={() => setIsRejectionModalOpen(false)}
+                            className="btn-outline"
+                        >Abort</button>
+                        <button
+                            onClick={submitRejection}
+                            disabled={isUpdatingStatus || !rejectionReason.trim()}
+                            className="btn-danger"
+                        >Execute Rejection</button>
+                    </>
+                }
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Please provide a quantitative reason for the rejection of this grievance protocol. This will be transmitted to the originating student.</p>
+                    <textarea
+                        className="input-field min-h-[120px]"
+                        placeholder="Rejection trace details..."
+                        value={rejectionReason}
+                        onChange={(e) => setRejectionReason(e.target.value)}
+                    ></textarea>
+                </div>
+            </Modal>
         </div>
     );
 };
