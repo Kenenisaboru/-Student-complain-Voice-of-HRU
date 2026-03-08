@@ -81,9 +81,10 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
 
 // Generate JWT token
 userSchema.methods.generateToken = function () {
+    const secret = process.env.JWT_SECRET || 'voicehu_local_fallback_secret_39281!@#';
     return jwt.sign(
         { id: this._id, role: this.role },
-        process.env.JWT_SECRET,
+        secret,
         { expiresIn: process.env.JWT_EXPIRE || '7d' }
     );
 };
