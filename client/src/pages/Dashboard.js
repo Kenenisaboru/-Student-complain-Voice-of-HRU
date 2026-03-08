@@ -228,15 +228,16 @@ const Dashboard = () => {
                         View All <HiOutlineArrowRight className="ml-2 w-4 h-4" />
                     </Link>
                 </div>
-                <div className="overflow-x-auto">
+                {/* Desktop View: Table */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-gray-50/50 dark:bg-dark-800/50 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                                <th className="px-8 py-4">Descriptor</th>
-                                <th className="px-8 py-4">Title & Context</th>
-                                <th className="px-8 py-4 text-center">Protocol Status</th>
-                                <th className="px-8 py-4 text-center">Urgency</th>
-                                <th className="px-8 py-4 text-right">Timestamp</th>
+                                <th className="px-8 py-5">Descriptor</th>
+                                <th className="px-8 py-5">Title & Protocol Context</th>
+                                <th className="px-8 py-5 text-center">Status</th>
+                                <th className="px-8 py-5 text-center">Urgency</th>
+                                <th className="px-8 py-5 text-right">Timestamp</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50 dark:divide-gray-800">
@@ -289,6 +290,42 @@ const Dashboard = () => {
                             )}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Mobile View: Cards */}
+                <div className="md:hidden divide-y divide-gray-50 dark:divide-gray-800">
+                    {stats?.recentComplaints?.length > 0 ? (
+                        stats.recentComplaints.map((complaint) => (
+                            <Link
+                                key={complaint._id}
+                                to={`/complaints/${complaint._id}`}
+                                className="flex flex-col p-6 space-y-4 hover:bg-gray-50/50 dark:hover:bg-dark-800/30 transition-all"
+                            >
+                                <div className="flex justify-between items-start">
+                                    <span className="font-mono text-[9px] font-black text-primary-500 dark:text-primary-400 bg-primary-50 dark:bg-primary-950/40 px-2 py-1 rounded-lg border border-primary-100 dark:border-primary-500/20 tracking-tighter uppercase">
+                                        {complaint.ticketId}
+                                    </span>
+                                    <span className={`badge text-[9px] ${complaint.status === 'resolved' ? 'badge-success' :
+                                        complaint.status === 'pending' ? 'badge-warning' :
+                                            'badge-primary'
+                                        }`}>
+                                        {complaint.status.replace('-', ' ')}
+                                    </span>
+                                </div>
+                                <h4 className="font-black text-gray-900 dark:text-white leading-tight">{complaint.title}</h4>
+                                <div className="flex items-center justify-between pt-2">
+                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                        {format(new Date(complaint.createdAt), 'MMM d, yyyy')}
+                                    </span>
+                                    <span className={`text-[10px] font-black uppercase tracking-widest ${complaint.priority === 'urgent' ? 'text-rose-500' : 'text-gray-400'}`}>
+                                        {complaint.priority}
+                                    </span>
+                                </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="p-10 text-center text-gray-400 italic text-sm">No recent signals detected.</div>
+                    )}
                 </div>
             </div>
         </div>
