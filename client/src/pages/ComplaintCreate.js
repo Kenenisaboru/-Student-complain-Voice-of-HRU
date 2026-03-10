@@ -35,7 +35,7 @@ const ComplaintCreate = () => {
                     setFormData(prev => ({ ...prev, category: res.data.categories[0]._id }));
                 }
             } catch (err) {
-                toast.error('Sector data retrieval failure');
+                toast.error('Failed to load categories');
             } finally {
                 setCatLoading(false);
             }
@@ -54,11 +54,11 @@ const ComplaintCreate = () => {
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
         if (files.length + selectedFiles.length > 3) {
-            return toast.error('Protocol Limit: Maximum 3 attachments allowed');
+            return toast.error('Limit: Maximum 3 attachments allowed');
         }
         const filteredFiles = selectedFiles.filter(file => file.size <= 5 * 1024 * 1024);
         if (filteredFiles.length < selectedFiles.length) {
-            toast.error('Payload overflow: Some files exceed 5MB limit');
+            toast.error('File too big: Some files exceed 5MB limit');
         }
         setFiles([...files, ...filteredFiles]);
     };
@@ -70,7 +70,7 @@ const ComplaintCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.title || !formData.description || !formData.category) {
-            return toast.error('Incomplete Manifest: Required fields missing');
+            return toast.error('Missing fields: Please fill all required fields');
         }
 
         const data = new FormData();
@@ -89,11 +89,11 @@ const ComplaintCreate = () => {
             await api.post('/complaints', data, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
-            toast.success('Protocol Initialized: Complaint Synchronized');
+            toast.success('Complaint successfully submitted');
             navigate('/complaints');
         } catch (error) {
             console.error(error);
-            toast.error(error.response?.data?.message || 'Protocol transmission failure');
+            toast.error(error.response?.data?.message || 'Failed to submit complaint');
         } finally {
             setLoading(false);
         }
@@ -110,10 +110,10 @@ const ComplaintCreate = () => {
                     <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-dark-800 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <HiOutlineChevronLeft className="w-5 h-5 text-gray-500" />
                     </div>
-                    <span className="text-sm font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Abort Mission</span>
+                    <span className="text-sm font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Cancel</span>
                 </button>
                 <div className="hidden sm:flex items-center gap-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Secure Protocol</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Secure Form</span>
                     <HiOutlineShieldCheck className="w-5 h-5 text-emerald-500" />
                 </div>
             </div>
@@ -123,18 +123,18 @@ const ComplaintCreate = () => {
                     <div className="card bg-white dark:bg-dark-900 overflow-hidden shadow-glow-sm">
                         <div className="h-1.5 w-full bg-gradient-to-r from-primary-600 via-secondary-500 to-accent-500 animate-gradient-shift"></div>
                         <div className="p-8 md:p-10">
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Initialize <span className="text-gradient">Grievance Protocol</span></h1>
-                            <p className="text-gray-500 dark:text-gray-400 font-medium text-sm mb-10">Construct your ticket with precision. Verified details accelerate resolution efficiency.</p>
+                            <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Submit a <span className="text-gradient">Complaint</span></h1>
+                            <p className="text-gray-500 dark:text-gray-400 font-medium text-sm mb-10">Please provide clear details so we can resolve your issue quickly.</p>
 
                             <form onSubmit={handleSubmit} className="space-y-8">
                                 <div className="space-y-6">
                                     {/* Title */}
                                     <div className="space-y-2">
-                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Protocol Handle (Title)</label>
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Title</label>
                                         <input
                                             name="title"
                                             required
-                                            placeholder="Specify core issue concisely..."
+                                            placeholder="Briefly state the issue..."
                                             className="input-field h-14 text-lg"
                                             value={formData.title}
                                             onChange={handleChange}
@@ -144,7 +144,7 @@ const ComplaintCreate = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         {/* Category */}
                                         <div className="space-y-2">
-                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Academic Sector</label>
+                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Category</label>
                                             <div className="relative">
                                                 {catLoading ? (
                                                     <div className="h-14 bg-gray-50 dark:bg-dark-800 animate-pulse rounded-2xl"></div>
@@ -166,29 +166,29 @@ const ComplaintCreate = () => {
 
                                         {/* Priority */}
                                         <div className="space-y-2">
-                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Impact Signature</label>
+                                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Priority</label>
                                             <select
                                                 name="priority"
                                                 className="input-field h-14 appearance-none font-bold text-sm tracking-wide"
                                                 value={formData.priority}
                                                 onChange={handleChange}
                                             >
-                                                <option value="low">Low Impact (Suggestion)</option>
-                                                <option value="medium">Medium Impact (Standard)</option>
-                                                <option value="high">High Impact (Serious)</option>
-                                                <option value="urgent">Urgent Response Required</option>
+                                                <option value="low">Low</option>
+                                                <option value="medium">Medium</option>
+                                                <option value="high">High</option>
+                                                <option value="urgent">Urgent</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     {/* Description */}
                                     <div className="space-y-2">
-                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Event Detailed Manifest</label>
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Description</label>
                                         <textarea
                                             name="description"
                                             required
                                             rows="8"
-                                            placeholder="Provide technical details, course indices, faculty involvement, and exact timeline of the issue..."
+                                            placeholder="Provide all necessary details about your complaint..."
                                             className="input-field p-6 text-gray-700 dark:text-gray-300 bg-gray-50/50 dark:bg-dark-800/30 border-none transition-all resize-none leading-relaxed"
                                             value={formData.description}
                                             onChange={handleChange}
@@ -197,13 +197,13 @@ const ComplaintCreate = () => {
 
                                     {/* Attachments */}
                                     <div className="space-y-3">
-                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Evidence Payload</label>
+                                        <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Attachments</label>
                                         <div className="mt-2 flex flex-col space-y-4">
                                             <label className="flex items-center justify-center border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl py-12 px-6 hover:bg-gray-50 dark:hover:bg-dark-800 hover:border-primary-500 transition-all cursor-pointer group relative overflow-hidden">
                                                 <div className="text-center relative z-10">
                                                     <HiOutlinePaperClip className="mx-auto h-10 w-10 text-gray-300 group-hover:text-primary-500 group-hover:scale-110 transition-all" />
-                                                    <span className="mt-4 block text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Aggregate Files</span>
-                                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 opacity-60">PDF, JPG, PNG • Max 5MB / Terminal</span>
+                                                    <span className="mt-4 block text-sm font-black text-gray-900 dark:text-white uppercase tracking-widest">Upload Files</span>
+                                                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 opacity-60">PDF, JPG, PNG • Max 5MB per file</span>
                                                 </div>
                                                 <input
                                                     type="file"
@@ -225,7 +225,7 @@ const ComplaintCreate = () => {
                                                                 </div>
                                                                 <div className="truncate">
                                                                     <div className="text-xs font-black text-gray-900 dark:text-white truncate uppercase tracking-tighter">{file.name}</div>
-                                                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest opacity-60">Payload Size: {(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                                                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest opacity-60">Size: {(file.size / 1024 / 1024).toFixed(2)} MB</div>
                                                                 </div>
                                                             </div>
                                                             <button
@@ -256,8 +256,8 @@ const ComplaintCreate = () => {
                                                 />
                                             </div>
                                             <label htmlFor="isAnonymous" className="ml-5 flex-1 cursor-pointer">
-                                                <span className="block text-sm font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest">Activate Stealth Mode</span>
-                                                <span className="block text-[10px] font-bold text-indigo-700/60 dark:text-indigo-400/60 uppercase tracking-widest mt-1">Initialize identity encapsulation. Only protocol data will be visible to adjudicators.</span>
+                                                <span className="block text-sm font-black text-indigo-900 dark:text-indigo-300 uppercase tracking-widest">Submit Anonymously</span>
+                                                <span className="block text-[10px] font-bold text-indigo-700/60 dark:text-indigo-400/60 uppercase tracking-widest mt-1">Your identity will be hidden from the people handling your complaint.</span>
                                             </label>
                                         </div>
                                     </div>
@@ -274,7 +274,7 @@ const ComplaintCreate = () => {
                                         ) : (
                                             <>
                                                 <HiOutlinePaperAirplane className="w-6 h-6 rotate-45" />
-                                                Transmit Protocol Load
+                                                Submit Complaint
                                             </>
                                         )}
                                     </button>
@@ -293,15 +293,15 @@ const ComplaintCreate = () => {
                                 <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center border border-white/20">
                                     <HiOutlineInformationCircle className="w-6 h-6" />
                                 </div>
-                                <h3 className="font-black text-xs uppercase tracking-[0.3em]">Directives</h3>
+                                <h3 className="font-black text-xs uppercase tracking-[0.3em]">Guidelines</h3>
                             </div>
                             <ul className="space-y-5">
                                 {[
-                                    'Specify exact course indices.',
-                                    'Verify faculty identity parameters.',
-                                    'Encrypt attachments for security.',
-                                    'Monitor terminal for status signals.',
-                                    'SLA Response: 72-120 Hours.'
+                                    'Be specific and clear.',
+                                    'Include relevant names or courses.',
+                                    'Attach proof if you have it.',
+                                    'Check back for updates.',
+                                    'Expected response: 3-5 days.'
                                 ].map((step, i) => (
                                     <li key={i} className="flex gap-4 items-start text-[11px] font-bold uppercase tracking-widest opacity-80 leading-relaxed">
                                         <span className="w-1.5 h-1.5 bg-primary-300 rounded-full mt-1.5 shrink-0 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></span>
@@ -315,14 +315,14 @@ const ComplaintCreate = () => {
                     <div className="card bg-white dark:bg-dark-900 p-8 space-y-8">
                         <h3 className="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.3em] flex items-center gap-3">
                             <HiOutlineCheckCircle className="w-5 h-5 text-emerald-500" />
-                            Lifecycle Status
+                            Process
                         </h3>
                         <div className="relative space-y-10">
                             {[
-                                { label: 'Transmission', desc: 'Current active phase', active: true },
-                                { label: 'Triage', desc: 'Sector specialist assignment', active: false },
-                                { label: 'Investigation', desc: 'Protocol audit & verification', active: false },
-                                { label: 'Execution', desc: 'Resolution & identity close', active: false }
+                                { label: 'Submission', desc: 'Complaint sent successfully', active: true },
+                                { label: 'Review', desc: 'Assigned to a staff member', active: false },
+                                { label: 'Working on it', desc: 'Staff is checking the details', active: false },
+                                { label: 'Resolved', desc: 'Issue is fixed and closed', active: false }
                             ].map((step, i) => (
                                 <div key={i} className="relative pl-10">
                                     {i < 3 && (
