@@ -22,13 +22,13 @@ const Login = () => {
         try {
             const result = await login(email, password);
             if (result.success) {
-                toast.success('Access Granted • Welcome to VoiceHU');
+                toast.success('Login Successful • Welcome to VoiceHU');
                 navigate(from, { replace: true });
             } else {
-                toast.error('Authentication Failed: Identity Invalid');
+                toast.error('Login Failed: Invalid Email or Password');
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Protocol breach detected');
+            toast.error(error.response?.data?.message || 'An error occurred during login');
         } finally {
             setLoading(false);
         }
@@ -55,14 +55,14 @@ const Login = () => {
                     <div className="max-w-md animate-fade-in-up">
                         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
                             <HiOutlineShieldCheck className="w-4 h-4" />
-                            <span>Academic Protocol V3.0</span>
+                            <span>Student Portal</span>
                         </div>
                         <h2 className="text-5xl font-black text-white leading-[1.1] tracking-tight">
                             Elevate the <br />
                             <span className="text-gradient">Student Experience</span>
                         </h2>
                         <p className="text-gray-400 mt-6 text-lg font-medium leading-relaxed">
-                            A sophisticated ecosystem designed for seamless grievance orchestration and academic intelligence.
+                            A platform designed to easily share feedback, resolve complaints, and improve your academic experience.
                         </p>
                     </div>
 
@@ -89,13 +89,13 @@ const Login = () => {
                                 <span className="text-3xl font-black italic">V</span>
                             </div>
                         </div>
-                        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">System Login</h1>
-                        <p className="text-gray-500 dark:text-gray-400 mt-3 font-medium text-lg">Enter your terminal credentials to continue.</p>
+                        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Welcome Back</h1>
+                        <p className="text-gray-500 dark:text-gray-400 mt-3 font-medium text-lg">Enter your email and password to continue.</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
-                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Identity Endpoint</label>
+                            <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Email Address</label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                     <HiOutlineMail className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -113,8 +113,8 @@ const Login = () => {
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Access Protocol</label>
-                                <Link to="/forgot-password" size="sm" className="text-[11px] font-black text-primary-600 hover:text-primary-700 uppercase tracking-widest">Recovery</Link>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest">Password</label>
+                                <Link to="/forgot-password" size="sm" className="text-[11px] font-black text-primary-600 hover:text-primary-700 uppercase tracking-widest">Forgot Password?</Link>
                             </div>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -151,24 +151,23 @@ const Login = () => {
                                 <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                             ) : (
                                 <span className="flex items-center">
-                                    Authorize Session <HiOutlineArrowRight className="ml-2 w-5 h-5" />
+                                    Log In <HiOutlineArrowRight className="ml-2 w-5 h-5" />
                                 </span>
                             )}
                         </button>
                     </form>
 
                     <div className="text-center">
-                        <span className="text-gray-500 dark:text-gray-400 font-medium text-sm">New operator?</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400 font-medium text-sm">Don't have an account?</span>{' '}
                         <Link to="/register" className="text-primary-600 font-black hover:text-primary-700 transition-colors ml-1 uppercase tracking-widest text-xs">
-                            Initialize Account
+                            Create one
                         </Link>
                     </div>
                 </div>
 
-                {/* Corner support info */}
                 <div className="absolute bottom-10 right-10 flex items-center space-x-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                     <HiOutlineSupport className="w-4 h-4" />
-                    <span>Technical Support: ext-9021</span>
+                    <span>Need Help? Contact Support</span>
                 </div>
             </div>
         </div>
