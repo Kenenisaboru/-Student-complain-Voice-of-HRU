@@ -50,7 +50,7 @@ const ComplaintDetail = () => {
                 setFeedback(res.data.complaint.satisfaction.feedback);
             }
         } catch (err) {
-            toast.error('Grievance protocol access denied');
+            toast.error('Access denied');
             navigate('/complaints');
         } finally {
             setLoading(false);
@@ -76,9 +76,9 @@ const ComplaintDetail = () => {
         try {
             const res = await api.put(`/complaints/${id}/status`, { status });
             setComplaint(res.data.complaint);
-            toast.success(`Protocol state updated to ${status.toUpperCase()}`);
+            toast.success(`Status updated to ${status.toUpperCase()}`);
         } catch (err) {
-            toast.error(err.response?.data?.message || 'Status transition failure');
+            toast.error(err.response?.data?.message || 'Failed to update status');
         }
     };
 
@@ -94,9 +94,9 @@ const ComplaintDetail = () => {
             setComplaint(res.data.complaint);
             setIsRejectionModalOpen(false);
             setRejectionReason('');
-            toast.success('Protocol state updated to REJECTED');
+            toast.success('Status updated to REJECTED');
         } catch (err) {
-            toast.error('Status transition failure');
+            toast.error('Failed to update status');
         } finally {
             setIsUpdatingStatus(false);
         }
@@ -106,9 +106,9 @@ const ComplaintDetail = () => {
         try {
             const res = await api.put(`/complaints/${id}/assign`, { assignedTo: staffId });
             setComplaint(res.data.complaint);
-            toast.success('Agent assigned to protocol');
+            toast.success('Staff member assigned successfully');
         } catch (err) {
-            toast.error('Agent assignment failure');
+            toast.error('Failed to assign staff member');
         }
     };
 
@@ -121,22 +121,22 @@ const ComplaintDetail = () => {
             const res = await api.post(`/complaints/${id}/respond`, { message: response });
             setComplaint(res.data.complaint);
             setResponse('');
-            toast.success('Signal transmitted successfully');
+            toast.success('Response sent successfully');
         } catch (err) {
-            toast.error('Signal transmission failure');
+            toast.error('Failed to send response');
         } finally {
             setSendingResponse(false);
         }
     };
 
     const handleSubmitRating = async () => {
-        if (rating === 0) return toast.error('Feedback rating required');
+        if (rating === 0) return toast.error('Please select a rating');
         try {
             await api.put(`/complaints/${id}/rate`, { rating, feedback });
-            toast.success('Efficiency data recorded. Thank you.');
+            toast.success('Thank you for your feedback.');
             fetchComplaint();
         } catch (err) {
-            toast.error('Feedback recording failure');
+            toast.error('Failed to submit feedback');
         }
     };
 
@@ -144,7 +144,7 @@ const ComplaintDetail = () => {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
                 <div className="w-12 h-12 border-4 border-primary-100 dark:border-primary-950/40 border-t-primary-600 rounded-full animate-spin"></div>
-                <span className="text-xs font-black uppercase tracking-widest text-gray-400">Decrypting Protocol Data...</span>
+                <span className="text-xs font-black uppercase tracking-widest text-gray-400">Loading Complaint...</span>
             </div>
         );
     }
@@ -169,10 +169,10 @@ const ComplaintDetail = () => {
                     <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-dark-800 flex items-center justify-center group-hover:scale-110 transition-transform">
                         <HiOutlineChevronLeft className="w-5 h-5 text-gray-500" />
                     </div>
-                    <span className="text-sm font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Directory Return</span>
+                    <span className="text-sm font-black uppercase tracking-widest text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">Back to List</span>
                 </button>
                 <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Packet Hash</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Ticket ID</span>
                     <span className="font-mono text-xs font-black text-primary-500 bg-primary-50 dark:bg-primary-950/40 px-3 py-1.5 rounded-lg border border-primary-100 dark:border-primary-500/20">
                         {complaint.ticketId}
                     </span>
@@ -219,7 +219,7 @@ const ComplaintDetail = () => {
                                 <div className="pt-8 border-t border-gray-50 dark:border-gray-800">
                                     <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-5 flex items-center gap-3">
                                         <HiOutlinePaperClip className="w-4 h-4 text-primary-500" />
-                                        Evidence Payloads ({complaint.attachments.length})
+                                        Attachments ({complaint.attachments.length})
                                     </h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {complaint.attachments.map((file, idx) => (
@@ -235,7 +235,7 @@ const ComplaintDetail = () => {
                                                 </div>
                                                 <div className="ml-4 truncate">
                                                     <div className="text-sm font-black text-gray-900 dark:text-white truncate">{file.originalName}</div>
-                                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{(file.size / 1024).toFixed(0)} KB • View Payload</div>
+                                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{(file.size / 1024).toFixed(0)} KB • View File</div>
                                                 </div>
                                             </a>
                                         ))}
@@ -250,10 +250,10 @@ const ComplaintDetail = () => {
                         <div className="flex items-center justify-between px-2">
                             <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em] flex items-center">
                                 <HiOutlineChatAlt className="w-4 h-4 mr-3 text-secondary-500" />
-                                Signal Intelligence
+                                Conversation
                             </h3>
                             <span className="text-[10px] font-bold text-gray-400 px-3 py-1 rounded-full bg-gray-100 dark:bg-dark-800">
-                                {complaint.responses.length} Transmissions
+                                {complaint.responses.length} Responses
                             </span>
                         </div>
 
@@ -274,7 +274,7 @@ const ComplaintDetail = () => {
                                                 <span className="opacity-30">•</span>
                                                 <span>{format(new Date(res.createdAt), 'MMM d, h:mm a')}</span>
                                                 {res.isInternal && (
-                                                    <span className="badge-warning text-[9px] px-2 py-0.5 rounded-lg border border-warning-200">Classified</span>
+                                                    <span className="badge-warning text-[9px] px-2 py-0.5 rounded-lg border border-warning-200">Internal Note</span>
                                                 )}
                                             </div>
                                             <div className={`p-5 rounded-2xl text-[15px] leading-relaxed relative ${isSelf
@@ -288,11 +288,10 @@ const ComplaintDetail = () => {
                                 );
                             })}
 
-                            {/* Response Terminal */}
                             <form onSubmit={handleAddResponse} className="card bg-white dark:bg-dark-900 p-6 space-y-4 border-dashed">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1">New Signal Capture</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1">Write a Response</label>
                                 <textarea
-                                    placeholder="Enter encrypted response..."
+                                    placeholder="Type your message here..."
                                     className="input-field min-h-[120px] p-5 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-dark-800/30 border-none transition-all resize-none"
                                     value={response}
                                     onChange={(e) => setResponse(e.target.value)}
@@ -302,8 +301,8 @@ const ComplaintDetail = () => {
                                         <HiOutlineShieldCheck className="w-4 h-4 text-emerald-500" />
                                         <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
                                             {user?.role !== 'student'
-                                                ? 'Public Protocol Transmission'
-                                                : 'Secure Staff Channel Active'}
+                                                ? 'Visible to Student'
+                                                : 'Internal Staff Note'}
                                         </p>
                                     </div>
                                     <button
@@ -311,7 +310,7 @@ const ComplaintDetail = () => {
                                         disabled={sendingResponse || !response.trim()}
                                         className="btn-primary py-3 px-10 shadow-glow disabled:opacity-30"
                                     >
-                                        {sendingResponse ? 'Transmitting...' : 'Transmit Signal'}
+                                        {sendingResponse ? 'Sending...' : 'Send Message'}
                                     </button>
                                 </div>
                             </form>
@@ -324,37 +323,37 @@ const ComplaintDetail = () => {
                     {/* Action Matrix (Admin/Staff) */}
                     {(user?.role === 'staff' || user?.role === 'admin') && (
                         <div className="card bg-white dark:bg-dark-900 p-8 space-y-8">
-                            <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em]">Phase Control</h3>
+                            <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.3em]">Manage Complaint</h3>
                             <div className="space-y-4">
                                 <button
                                     onClick={() => handleUpdateStatus('in-progress')}
                                     className="w-full flex items-center justify-between p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 font-black text-[11px] uppercase tracking-widest hover:bg-blue-100 transition-all"
                                 >
-                                    Initialize Phase 2: In Progress <HiOutlineClock className="w-5 h-5" />
+                                    Mark as In Progress <HiOutlineClock className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => handleUpdateStatus('resolved')}
                                     className="w-full flex items-center justify-between p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-black text-[11px] uppercase tracking-widest hover:bg-emerald-100 transition-all"
                                 >
-                                    Execute Target State: Resolved <HiOutlineCheckCircle className="w-5 h-5" />
+                                    Mark as Resolved <HiOutlineCheckCircle className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => handleUpdateStatus('rejected')}
                                     className="w-full flex items-center justify-between p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/20 border border-rose-100 dark:border-rose-500/20 text-rose-600 dark:text-rose-400 font-black text-[11px] uppercase tracking-widest hover:bg-rose-100 transition-all opacity-70 hover:opacity-100"
                                 >
-                                    Terminate Protocol: Reject <HiOutlineXCircle className="w-5 h-5" />
+                                    Reject Complaint <HiOutlineXCircle className="w-5 h-5" />
                                 </button>
                             </div>
 
                             {user?.role === 'admin' && (
                                 <div className="space-y-4 pt-6 border-t border-gray-50 dark:border-gray-800">
-                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Asset Allocation</label>
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Assign to Staff</label>
                                     <select
                                         className="input-field py-3 text-xs font-bold uppercase tracking-widest appearance-none"
                                         value={complaint.assignedTo?._id || ''}
                                         onChange={(e) => handleAssign(e.target.value)}
                                     >
-                                        <option value="">Awaiting Asset Selection</option>
+                                        <option value="">Select a Staff Member</option>
                                         {staffList.map(s => (
                                             <option key={s._id} value={s._id}>{s.name} • {s.department}</option>
                                         ))}
@@ -364,23 +363,22 @@ const ComplaintDetail = () => {
                         </div>
                     )}
 
-                    {/* Protocol Meta Matrix */}
                     <div className="card bg-white dark:bg-dark-900 p-8 space-y-10">
                         <section className="space-y-5">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Origin Identity</label>
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Student Details</label>
                             <div className="flex items-center gap-5">
                                 <div className="w-14 h-14 bg-primary-50 dark:bg-primary-950/40 rounded-2xl flex items-center justify-center text-primary-500 font-black text-2xl border border-primary-100 dark:border-primary-500/20 shadow-sm">
                                     {complaint.submittedBy.name?.charAt(0)}
                                 </div>
                                 <div>
                                     <div className="text-sm font-black text-gray-900 dark:text-white tracking-tight">{complaint.submittedBy.name}</div>
-                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{complaint.submittedBy.department} Entity</div>
+                                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">{complaint.submittedBy.department} Department</div>
                                 </div>
                             </div>
                         </section>
 
                         <section className="space-y-5">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Assigned Operative</label>
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">Assigned To</label>
                             <div className="flex items-center gap-5">
                                 {complaint.assignedTo ? (
                                     <>
@@ -389,13 +387,13 @@ const ComplaintDetail = () => {
                                         </div>
                                         <div>
                                             <div className="text-sm font-black text-gray-900 dark:text-white tracking-tight">{complaint.assignedTo.name}</div>
-                                            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Specialist Operative</div>
+                                            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Staff Member</div>
                                         </div>
                                     </>
                                 ) : (
                                     <div className="flex items-center gap-4 text-amber-500 bg-amber-50/50 dark:bg-amber-950/20 px-4 py-4 rounded-2xl border border-amber-100 dark:border-amber-500/20 w-full animate-pulse-slow">
                                         <HiOutlineClock className="w-6 h-6 shrink-0" />
-                                        <span className="text-[10px] font-black uppercase tracking-widest">Awaiting Operative Assignment</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest">Unassigned</span>
                                     </div>
                                 )}
                             </div>
@@ -403,13 +401,13 @@ const ComplaintDetail = () => {
 
                         <section className="space-y-4 pt-6 border-t border-gray-50 dark:border-gray-800">
                             <div className="flex justify-between items-center">
-                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Sector</span>
+                                <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Category</span>
                                 <span className="text-[11px] font-black text-gray-900 dark:text-white uppercase tracking-widest px-3 py-1 bg-gray-50 dark:bg-dark-800 rounded-lg">{complaint.category?.name}</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mode</span>
                                 <span className={`text-[11px] font-black uppercase tracking-widest ${complaint.isAnonymous ? 'text-emerald-500' : 'text-gray-900 dark:text-white'}`}>
-                                    {complaint.isAnonymous ? 'STEALTH ACTIVE' : 'OPEN COMMS'}
+                                    {complaint.isAnonymous ? 'ANONYMOUS' : 'PUBLIC'}
                                 </span>
                             </div>
                         </section>
@@ -422,7 +420,7 @@ const ComplaintDetail = () => {
                             <div className="relative z-10 p-8 space-y-6 text-white">
                                 <div className="flex items-center gap-3">
                                     <HiOutlineStar className="w-6 h-6 text-amber-300" />
-                                    <h3 className="font-black text-xs uppercase tracking-[0.2em]">Efficiency Audit</h3>
+                                    <h3 className="font-black text-xs uppercase tracking-[0.2em]">Rate This Resolution</h3>
                                 </div>
 
                                 {complaint.satisfaction?.rating ? (
@@ -435,11 +433,11 @@ const ComplaintDetail = () => {
                                         <div className="bg-black/20 p-5 rounded-2xl border border-white/10 italic text-sm font-medium leading-relaxed">
                                             "{feedback || 'No qualitative data provided.'}"
                                         </div>
-                                        <p className="text-center text-[10px] font-black uppercase tracking-widest opacity-60">Audit Complete • Protocol Closed</p>
+                                        <p className="text-center text-[10px] font-black uppercase tracking-widest opacity-60">Feedback Submitted • Complaint Closed</p>
                                     </div>
                                 ) : (
                                     <div className="space-y-6">
-                                        <p className="text-xs font-medium opacity-80 text-center leading-relaxed">Please rate the efficiency of the resolution protocol.</p>
+                                        <p className="text-xs font-medium opacity-80 text-center leading-relaxed">Please let us know how we did.</p>
                                         <div className="flex gap-2 justify-center">
                                             {[1, 2, 3, 4, 5].map(i => (
                                                 <button
@@ -454,7 +452,7 @@ const ComplaintDetail = () => {
                                             ))}
                                         </div>
                                         <textarea
-                                            placeholder="Audit comments (Optional)..."
+                                            placeholder="Additional comments (Optional)..."
                                             className="w-full p-4 bg-white/10 border border-white/10 rounded-2xl placeholder:text-white/30 focus:ring-2 focus:ring-white/50 outline-none text-white text-sm"
                                             rows="3"
                                             value={feedback}
@@ -464,7 +462,7 @@ const ComplaintDetail = () => {
                                             onClick={handleSubmitRating}
                                             className="w-full bg-white text-primary-900 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
                                         >
-                                            Record Audit Data
+                                            Submit Feedback
                                         </button>
                                     </div>
                                 )}
@@ -478,26 +476,26 @@ const ComplaintDetail = () => {
             <Modal
                 isOpen={isRejectionModalOpen}
                 onClose={() => setIsRejectionModalOpen(false)}
-                title="Protocol Rejection Control"
+                title="Reject Complaint"
                 footer={
                     <>
                         <button
                             onClick={() => setIsRejectionModalOpen(false)}
                             className="btn-outline"
-                        >Abort</button>
+                        >Cancel</button>
                         <button
                             onClick={submitRejection}
                             disabled={isUpdatingStatus || !rejectionReason.trim()}
                             className="btn-danger"
-                        >Execute Rejection</button>
+                        >Reject</button>
                     </>
                 }
             >
                 <div className="space-y-4">
-                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Please provide a quantitative reason for the rejection of this grievance protocol. This will be transmitted to the originating student.</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Please provide a reason for rejecting this complaint. This will be sent to the student.</p>
                     <textarea
                         className="input-field min-h-[120px]"
-                        placeholder="Rejection trace details..."
+                        placeholder="Reason for rejection..."
                         value={rejectionReason}
                         onChange={(e) => setRejectionReason(e.target.value)}
                     ></textarea>
