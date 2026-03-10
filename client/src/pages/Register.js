@@ -34,17 +34,17 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
-            return toast.error('Security Breach: Passwords do not match');
+            return toast.error('Passwords do not match');
         }
 
         setLoading(true);
         try {
             const result = await register(formData);
             if (result.success) {
-                toast.success('Identity Protocol Initialized');
+                toast.success('Registration Successful');
                 navigate('/dashboard');
             } else {
-                toast.error(result.message || 'Initialization failed');
+                toast.error(result.message || 'Registration failed');
             }
         } catch (error) {
             toast.error('System error during registration');
@@ -79,25 +79,25 @@ const Register = () => {
                     <div className="animate-fade-in-up">
                         <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-secondary-500/10 border border-secondary-500/20 text-secondary-300 text-[10px] font-black uppercase tracking-[0.2em] mb-6">
                             <HiOutlineShieldCheck className="w-4 h-4" />
-                            <span>Registration Protocol</span>
+                            <span>Student Registration</span>
                         </div>
                         <h2 className="text-4xl font-black text-white leading-tight tracking-tight">
-                            Join the <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary-300 to-primary-300">Intelligent Network</span>
+                            Join <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary-300 to-primary-300">VoiceHU</span>
                         </h2>
                         <p className="text-secondary-100/60 mt-4 text-sm font-medium leading-relaxed">
-                            Create your academic profile to participate in the most advanced feedback ecosystem at Haramaya University.
+                            Create your account to start sharing feedback and making a difference at Haramaya University.
                         </p>
                     </div>
 
                     <div className="space-y-4">
                         <div className="flex items-center gap-3 text-xs font-bold text-secondary-200/50">
                             <div className="w-1 h-1 bg-secondary-400 rounded-full"></div>
-                            Verified Student Identity
+                            Verified Student Account
                         </div>
                         <div className="flex items-center gap-3 text-xs font-bold text-secondary-200/50">
                             <div className="w-1 h-1 bg-secondary-400 rounded-full"></div>
-                            Encrypted Data Streams
+                            Secure Data Protection
                         </div>
                     </div>
                 </div>
@@ -107,15 +107,15 @@ const Register = () => {
             <div className="w-full lg:w-2/3 flex items-center justify-center p-8 md:p-12 overflow-y-auto">
                 <div className="w-full max-w-2xl space-y-8 animate-fade-in py-12">
                     <div className="text-center lg:text-left">
-                        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Initialize Identity</h1>
-                        <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">Please provide your academic credentials to create an endpoint.</p>
+                        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Create Account</h1>
+                        <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">Please provide your details to register.</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Full Name */}
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Entity Name</label>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Full Name</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <HiOutlineUser className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -133,7 +133,7 @@ const Register = () => {
 
                             {/* Email */}
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Email Endpoint</label>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Email Address</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <HiOutlineMail className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -169,7 +169,7 @@ const Register = () => {
 
                             {/* Department */}
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Faculty/Department</label>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Department</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <HiOutlineAcademicCap className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -189,7 +189,7 @@ const Register = () => {
 
                             {/* Password */}
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Access Passphrase</label>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Password</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <HiOutlineLockClosed className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -208,7 +208,7 @@ const Register = () => {
 
                             {/* Confirm Password */}
                             <div className="space-y-2">
-                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Confirm Protocol</label>
+                                <label className="text-[11px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">Confirm Password</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                         <HiOutlineLockClosed className="h-5 w-5 text-gray-400 group-focus-within:text-primary-500 transition-colors" />
@@ -218,7 +218,7 @@ const Register = () => {
                                         type="password"
                                         required
                                         className="input-field pl-12 h-12"
-                                        placeholder="Repeat passphrase"
+                                        placeholder="Repeat password"
                                         value={formData.confirmPassword}
                                         onChange={handleChange}
                                     />
@@ -234,7 +234,7 @@ const Register = () => {
                                 className="w-4 h-4 mt-1 text-primary-600 border-gray-300 rounded focus:ring-primary-500 dark:bg-dark-800 dark:border-gray-700"
                             />
                             <label htmlFor="terms" className="ml-3 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest leading-relaxed">
-                                I confirm compliance with the <Link to="/terms" className="text-secondary-500 hover:text-secondary-400 transition-colors">Digital Governance Code</Link> and <Link to="/privacy" className="text-secondary-500 hover:text-secondary-400 transition-colors">Privacy Treaty</Link>.
+                                I agree to the <Link to="/terms" className="text-secondary-500 hover:text-secondary-400 transition-colors">Terms of Service</Link> and <Link to="/privacy" className="text-secondary-500 hover:text-secondary-400 transition-colors">Privacy Policy</Link>.
                             </label>
                         </div>
 
@@ -247,16 +247,16 @@ const Register = () => {
                                 <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                             ) : (
                                 <span className="flex items-center">
-                                    Establish Identity <HiOutlineArrowRight className="ml-2 w-5 h-5" />
+                                    Register <HiOutlineArrowRight className="ml-2 w-5 h-5" />
                                 </span>
                             )}
                         </button>
                     </form>
 
                     <div className="text-center">
-                        <span className="text-gray-500 dark:text-gray-400 font-medium text-sm">Existing operator?</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400 font-medium text-sm">Already have an account?</span>{' '}
                         <Link to="/login" className="text-secondary-600 font-black hover:text-secondary-700 transition-colors ml-1 uppercase tracking-widest text-xs">
-                            Access Terminal
+                            Log In
                         </Link>
                     </div>
                 </div>
