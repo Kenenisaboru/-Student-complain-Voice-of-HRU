@@ -40,7 +40,7 @@ const ComplaintList = () => {
             setPagination(res.data.pagination);
         } catch (error) {
             console.error('Fetch error', error);
-            toast.error('Failed to load records from directory');
+            toast.error('Failed to load complaints');
         } finally {
             setLoading(false);
         }
@@ -77,18 +77,18 @@ const ComplaintList = () => {
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                        Complaint <span className="text-gradient">Directory</span>
+                        Complaint <span className="text-gradient">List</span>
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
                         {user?.role === 'student'
-                            ? 'Monitor and manage your active grievance protocols.'
-                            : 'Orchestrate and resolve inbound academic tickets.'}
+                            ? 'View and manage your complaints.'
+                            : 'Manage and resolve student complaints.'}
                     </p>
                 </div>
                 {user?.role === 'student' && (
                     <Link to="/complaints/new" className="btn-primary flex items-center shadow-glow">
                         <HiOutlinePlus className="w-5 h-5 mr-2" />
-                        Launch New Ticket
+                        Submit Complaint
                     </Link>
                 )}
             </div>
@@ -99,7 +99,7 @@ const ComplaintList = () => {
                     <HiOutlineSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-primary-500 transition-colors w-5 h-5" />
                     <input
                         type="text"
-                        placeholder="Search by ID, title, or protocol context..."
+                        placeholder="Search complaints by ID or keyword..."
                         className="input-field pl-12 h-12"
                         value={search}
                         onChange={(e) => { setSearch(e.target.value); setPage(1); }}
@@ -192,7 +192,7 @@ const ComplaintList = () => {
                                             {c.responses?.length > 0 && (
                                                 <div className="flex items-center text-[10px] md:text-[11px] font-black text-primary-500 uppercase tracking-widest">
                                                     <HiOutlineChatAlt className="w-3.5 h-3.5 mr-2" />
-                                                    {c.responses.length} Signals
+                                                    {c.responses.length} Responses
                                                 </div>
                                             )}
                                         </div>
@@ -204,7 +204,7 @@ const ComplaintList = () => {
                                         {c.status.replace('-', ' ')}
                                     </span>
                                     <div className="flex items-center gap-1.5 text-[9px] md:text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-widest group-hover:text-primary-600 transition-all">
-                                        Open Protocol <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                                        View Details <HiOutlineChevronRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </div>
                                 </div>
                             </Link>
@@ -217,7 +217,7 @@ const ComplaintList = () => {
                         </div>
                         <h3 className="text-2xl font-black text-gray-900 dark:text-white">Directory Empty</h3>
                         <p className="text-gray-500 dark:text-gray-400 max-w-sm mt-3 font-medium leading-relaxed">
-                            No active tickets discovered with current filter signatures. <br />Try resetting parameters.
+                            No complaints matching your search found. <br />Try changing your filters.
                         </p>
                     </div>
                 )}
@@ -227,7 +227,7 @@ const ComplaintList = () => {
             {pagination.pages > 1 && (
                 <div className="flex flex-col sm:flex-row items-center justify-between pt-10 gap-6">
                     <p className="text-[11px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                        Index <span className="text-gray-900 dark:text-white">{complaints.length}</span> of <span className="text-gray-900 dark:text-white">{pagination.total}</span> Records
+                        Showing <span className="text-gray-900 dark:text-white">{complaints.length}</span> of <span className="text-gray-900 dark:text-white">{pagination.total}</span> Complaints
                     </p>
                     <div className="flex items-center gap-3">
                         <button
@@ -238,7 +238,7 @@ const ComplaintList = () => {
                             <HiOutlineChevronLeft className="w-6 h-6" />
                         </button>
                         <div className="h-12 px-6 flex items-center bg-white dark:bg-dark-900 border border-gray-100 dark:border-gray-800 rounded-xl text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest shadow-sm">
-                            Phase {page} <span className="mx-2 text-gray-300">/</span> {pagination.pages}
+                            Page {page} <span className="mx-2 text-gray-300">/</span> {pagination.pages}
                         </div>
                         <button
                             disabled={page === pagination.pages}
