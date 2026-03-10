@@ -102,10 +102,10 @@ const Dashboard = () => {
             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div>
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                        Operational <span className="text-gradient">Intelligence</span>
+                        Dashboard <span className="text-gradient">Overview</span>
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
-                        Welcome back, <span className="text-gray-900 dark:text-white font-bold">{user?.name}</span>. The system is operating normally.
+                        Welcome back, <span className="text-gray-900 dark:text-white font-bold">{user?.name}</span>. Here is what is happening today.
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -116,7 +116,7 @@ const Dashboard = () => {
                     {user?.role === 'student' && (
                         <Link to="/complaints/new" className="btn-primary flex items-center shadow-glow">
                             <HiOutlinePlus className="w-5 h-5 mr-2" />
-                            Launch New Ticket
+                            Submit Complaint
                         </Link>
                     )}
                 </div>
@@ -152,8 +152,8 @@ const Dashboard = () => {
                 <div className="xl:col-span-2 card bg-white dark:bg-dark-900 p-8">
                     <div className="flex items-center justify-between mb-8">
                         <div>
-                            <h3 className="text-xl font-black text-gray-900 dark:text-white">Ticket Flow Analytics</h3>
-                            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Real-time status tracking</p>
+                            <h3 className="text-xl font-black text-gray-900 dark:text-white">Complaint Overview</h3>
+                            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Status of complaints</p>
                         </div>
                         <div className="flex items-center space-x-2 bg-gray-50 dark:bg-dark-800 p-1 rounded-xl">
                             <button className="px-3 py-1.5 text-[10px] font-black uppercase bg-white dark:bg-dark-700 shadow-sm rounded-lg text-gray-900 dark:text-white transition-all">Today</button>
@@ -200,8 +200,8 @@ const Dashboard = () => {
                         <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6">
                             <HiOutlineLightningBolt className="w-6 h-6 text-white" />
                         </div>
-                        <h3 className="text-2xl font-black leading-tight">Response <br />Performance</h3>
-                        <p className="text-primary-100 text-sm mt-3 opacity-80 leading-relaxed font-medium">Your average response time has improved by <br /><span className="text-white font-black">1.2 hours</span> this week.</p>
+                        <h3 className="text-2xl font-black leading-tight">Response <br />Time</h3>
+                        <p className="text-primary-100 text-sm mt-3 opacity-80 leading-relaxed font-medium">Average response time improved by <br /><span className="text-white font-black">1.2 hours</span> this week.</p>
                     </div>
                     <div className="relative z-10 mt-8 pt-6 border-t border-white/10">
                         <div className="flex justify-between items-end">
@@ -221,8 +221,8 @@ const Dashboard = () => {
             <div className="card bg-white dark:bg-dark-900 overflow-hidden">
                 <div className="p-8 border-b border-gray-50 dark:border-gray-800 flex items-center justify-between bg-white dark:bg-dark-900">
                     <div>
-                        <h3 className="text-xl font-black text-gray-900 dark:text-white">Recent Transactions</h3>
-                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Live complaint activity feed</p>
+                        <h3 className="text-xl font-black text-gray-900 dark:text-white">Recent Complaints</h3>
+                        <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">Your latest activity</p>
                     </div>
                     <Link to="/complaints" className="btn-ghost text-xs uppercase font-black tracking-widest flex items-center">
                         View All <HiOutlineArrowRight className="ml-2 w-4 h-4" />
@@ -233,8 +233,8 @@ const Dashboard = () => {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-gray-50/50 dark:bg-dark-800/50 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                                <th className="px-8 py-5">Descriptor</th>
-                                <th className="px-8 py-5">Title & Protocol Context</th>
+                                <th className="px-8 py-5">ID</th>
+                                <th className="px-8 py-5">Title & Category</th>
                                 <th className="px-8 py-5 text-center">Status</th>
                                 <th className="px-8 py-5 text-center">Urgency</th>
                                 <th className="px-8 py-5 text-right">Timestamp</th>
@@ -284,7 +284,7 @@ const Dashboard = () => {
                             ) : (
                                 <tr>
                                     <td colSpan="5" className="px-8 py-20 text-center text-gray-400 italic font-medium">
-                                        No active records discovered in the directory.
+                                        No recent complaints found.
                                     </td>
                                 </tr>
                             )}
@@ -324,7 +324,7 @@ const Dashboard = () => {
                             </Link>
                         ))
                     ) : (
-                        <div className="p-10 text-center text-gray-400 italic text-sm">No recent signals detected.</div>
+                        <div className="p-10 text-center text-gray-400 italic text-sm">No recent complaints found.</div>
                     )}
                 </div>
             </div>
